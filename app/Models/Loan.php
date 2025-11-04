@@ -45,4 +45,26 @@ class Loan {
         $stmt = Database::getInstance()->prepare("DELETE FROM loan WHERE id=?");
         return $stmt->execute([$id]);
     }
+
+
+    public static function countActiveByEquipment(int $equipmentId): int {
+        $stmt = Database::getInstance()->prepare("
+            SELECT COUNT(*) FROM loan 
+            WHERE equipment_id = ? AND returned_at IS NULL
+        ");
+        $stmt->execute([$equipmentId]);
+        return (int) $stmt->fetchColumn();
+    }
+
+    public static function getActiveWithEquipmentNames(): array {
+        $sql = "
+            SELECT l.*, e.name AS equipment_name
+            FROM loan l
+            JOIN equipment e ON e.id = l.equipment_id
+            WHERE l.returned_at IS NULL
+            ORDER BY l.loaned_at DESC
+        ";
+        $stmt = Database::getInstance()->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
 }

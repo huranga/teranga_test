@@ -1,10 +1,14 @@
 <?php
 namespace App\Controllers;
 
+use Exception;
+use App\Controller;
+
 use App\Models\Loan;
 use App\Models\Equipment;
 
-class LoanController {
+
+class LoanController extends Controller {
 
     public function index(): array {
         return Loan::all();
@@ -15,6 +19,13 @@ class LoanController {
     }
 
     public function store(array $data): bool {
+
+        $equipment = Equipment::find($data['equipment_id']);
+        
+        if (!$equipment || $equipment->state !== 'Disponible') {
+            throw new Exception("Le matériel sélectionné n'est plus disponible pour le prêt.");
+        }
+        
         $loan = new Loan();
 
         $loan->equipment_id = $data['equipment_id'];

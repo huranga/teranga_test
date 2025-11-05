@@ -26,6 +26,19 @@ class Equipment {
         return $stmt->fetch() ?: null;
     }
 
+    public static function where(string $column, $value): array {
+        $allowedColumns = ['id', 'name', 'category', 'state', 'serial_number', 'localisation'];
+        if (!in_array($column, $allowedColumns)) {
+            throw new \InvalidArgumentException("Invalid column name: $column");
+        }
+
+        $stmt = Database::getInstance()->prepare("SELECT * FROM equipment WHERE $column = :value ORDER BY name ASC");
+        $stmt->bindValue(':value', $value);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_CLASS, self::class);
+    }
+
     public function save(): bool {
         $pdo = Database::getInstance();
         if (isset($this->id)) {

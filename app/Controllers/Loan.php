@@ -10,15 +10,15 @@ use App\Models\Equipment;
 
 class LoanController extends Controller {
 
-    public function index(): array {
+    public function indexAction(): array {
         return Loan::all();
     }
 
-    public function show(int $id): ?Loan {
+    public function showAction(int $id): ?Loan {
         return Loan::find($id);
     }
 
-    public function store(array $data): bool {
+    public function storeAction(array $data): bool {
 
         $equipment = Equipment::find($data['equipment_id']);
         
@@ -50,7 +50,7 @@ class LoanController extends Controller {
         return $success;
     }
 
-    public function update(int $id, array $data): bool {
+    public function updateAction(int $id, array $data): bool {
         $loan = Loan::find($id);
         if (!$loan) return false;
 
@@ -74,7 +74,16 @@ class LoanController extends Controller {
         return $success;
     }
 
-    public function destroy(int $id): bool {
+    public function destroyAction(int $id): bool {
         return Loan::delete($id);
     }
+
+    public function createAction() {
+        $availableEquipments = Equipment::where('state', 'available');
+        
+        $this->render('loan/create', [
+            'equipments' => $availableEquipments
+        ]);
+    }
+
 }

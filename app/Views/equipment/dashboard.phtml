@@ -73,9 +73,9 @@
                         <th>Nom</th>
                         <th>Catégorie</th>
                         <th>Numéro série</th>
-                        <th>State</th>
-                        <th>Active Loans</th>
-                        <th>Purchase Date</th>
+                        <th>Etat</th>
+                        <th>Prêt en cours</th>
+                        <th>Acheté le</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -89,10 +89,10 @@
                                 <td>
                                     <?php
                                     $colors = [
-                                        'available' => 'success',
-                                        'loaned' => 'warning',
-                                        'maintenance' => 'info',
-                                        'out_of_service' => 'danger'
+                                        'Disponible' => 'success',
+                                        'Prete' => 'warning',
+                                        'En maintenance' => 'info',
+                                        'Hors service' => 'danger'
                                     ];
                                     $badge = $colors[$eq->state] ?? 'secondary';
                                     ?>
@@ -103,9 +103,9 @@
                                 <td><?= $eq->active_loans ?? 0 ?></td>
                                 <td><?= htmlspecialchars($eq->purchase_date ?? '-') ?></td>
                                 <td>
-                                    <a href="index.php?controller=equipment&action=show&id=<?= $eq->id ?>" class="btn btn-sm btn-outline-secondary">View</a>
-                                    <a href="index.php?controller=equipment&action=edit&id=<?= $eq->id ?>" class="btn btn-sm btn-outline-primary">Edit</a>
-                                    <a href="index.php?controller=equipment&action=delete&id=<?= $eq->id ?>" class="btn btn-sm btn-outline-danger">Delete</a>
+                                    <a href="index.php?controller=equipment&action=show&id=<?= $eq->id ?>" class="btn btn-sm btn-outline-secondary">Consulter</a>
+                                    <a href="index.php?controller=equipment&action=edit&id=<?= $eq->id ?>" class="btn btn-sm btn-outline-primary">Modifier</a>
+                                    <a href="index.php?controller=equipment&action=delete&id=<?= $eq->id ?>" class="btn btn-sm btn-outline-danger">Supprimer</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

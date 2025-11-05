@@ -62,10 +62,13 @@ class EquipmentController extends Controller {
 
         foreach ($equipments as &$eq) {
             $eq->active_loans = Loan::countActiveByEquipment($eq->id);
+        }
 
-            if (isset($stats[$eq->state])) {
-                $stats[$eq->state]++;
-            }
+        foreach ($stats as $key => &$stat) {
+            if ($key == "Total") continue;
+
+            $equipmentsByState = Equipment::where('state', $key);
+            $stat = count($equipmentsByState);
         }
 
         $activeLoans = Loan::getActiveWithEquipmentNames();

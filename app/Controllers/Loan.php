@@ -79,7 +79,7 @@ class LoanController extends Controller {
     }
 
     public function createAction() {
-        $availableEquipments = Equipment::where('state', 'available');
+        $availableEquipments = Equipment::where('state', 'Disponible');
         
         $this->render('loan/create', [
             'equipments' => $availableEquipments
